@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Component
-public class DebeziumConsumer implements Consumer<RecordChangeEvent<SourceRecord>> {
+public class DebeziumHandler implements Consumer<RecordChangeEvent<SourceRecord>> {
 
 
     @Override

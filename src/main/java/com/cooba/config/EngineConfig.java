@@ -1,7 +1,7 @@
 package com.cooba.config;
 
-import com.cooba.handler.DebeziumConsumer;
-import com.cooba.handler.DebeziumJsonConsumer;
+import com.cooba.handler.DebeziumHandler;
+import com.cooba.handler.DebeziumJsonHandler;
 import io.debezium.embedded.Connect;
 import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
@@ -11,7 +11,6 @@ import io.debezium.engine.format.Json;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.source.SourceRecord;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -21,11 +20,11 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 @Slf4j
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class EngineConfig {
-    private final DebeziumConsumer debeziumConsumer;
-    private final DebeziumJsonConsumer debeziumJsonConsumer;
+    private final DebeziumHandler debeziumHandler;
+    private final DebeziumJsonHandler debeziumJsonHandler;
 
     public void execute() throws IOException {
         ClassPathResource resource = new ClassPathResource("mysql-source.properties");
@@ -33,7 +32,7 @@ public class EngineConfig {
 
         DebeziumEngine<RecordChangeEvent<SourceRecord>> engine = DebeziumEngine.create(ChangeEventFormat.of(Connect.class))
                 .using(properties)
-                .notifying(debeziumConsumer)
+                .notifying(debeziumHandler)
                 .build();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -47,7 +46,7 @@ public class EngineConfig {
 
         DebeziumEngine<ChangeEvent<String, String>> engine = DebeziumEngine.create(Json.class)
                 .using(properties)
-                .notifying(debeziumJsonConsumer)
+                .notifying(debeziumJsonHandler)
                 .build();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();

@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Component
-public class DebeziumJsonConsumer implements Consumer<ChangeEvent<String, String>> {
+public class DebeziumJsonHandler implements Consumer<ChangeEvent<String, String>> {
 
     @Override
     public void accept(ChangeEvent<String, String> stringStringChangeEvent) {

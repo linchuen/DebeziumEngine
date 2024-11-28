@@ -17,6 +17,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.debezium>2.3.4.Final</version.debezium>
+        <version.debezium>2.3.4.Final</version.debezium>
+        <version.hutool>5.8.34</version.hutool>
     </properties>
 
     <dependencies>
@@ -46,6 +48,12 @@
             <groupId>io.debezium</groupId>
             <artifactId>debezium-connector-mysql</artifactId>
             <version>${version.debezium}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+            <version>${version.hutool}</version>
         </dependency>
 
         <dependency>
