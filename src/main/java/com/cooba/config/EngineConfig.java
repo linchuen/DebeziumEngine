@@ -11,6 +11,7 @@ import io.debezium.engine.format.Json;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.source.SourceRecord;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -20,7 +21,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 @Slf4j
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 public class EngineConfig {
     private final DebeziumHandler debeziumHandler;
@@ -41,7 +42,7 @@ public class EngineConfig {
 
     @PostConstruct
     public void executeJson() throws IOException {
-        ClassPathResource resource = new ClassPathResource("mysql-source.properties");
+        ClassPathResource resource = new ClassPathResource("mysql-source-jdbc.properties");
         Properties properties = PropertiesLoaderUtils.loadProperties(resource);
 
         DebeziumEngine<ChangeEvent<String, String>> engine = DebeziumEngine.create(Json.class)
