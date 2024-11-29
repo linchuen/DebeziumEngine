@@ -21,7 +21,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 @Slf4j
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 public class EngineConfig {
     private final DebeziumHandler debeziumHandler;

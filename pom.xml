@@ -57,6 +57,20 @@
         </dependency>
 
         <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-scripting</artifactId>
+            <version>${version.debezium}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.debezium</groupId>
+            <artifactId>debezium-scripting-languages</artifactId>
+            <version>${version.debezium}</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
             <version>${version.hutool}</version>
