@@ -1,7 +1,7 @@
 package com.cooba.controller;
 
 import com.cooba.entity.Demo;
-import com.cooba.service.ClickhouseService;
+import com.cooba.service.impl.ClickhouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.instancio.Instancio;
