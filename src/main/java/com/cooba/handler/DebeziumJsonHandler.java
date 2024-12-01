@@ -34,7 +34,6 @@ public class DebeziumJsonHandler implements Consumer<ChangeEvent<String, String>
 
         CdcValue cdcValue = new CdcValue(changeEvent.value(), type);
 
-        TableHandler handler = tableHandlerFactory.getHandler(tableEnum);
-        handler.handle(cdcKey, cdcValue);
+        tableHandlerFactory.handle(tableEnum, cdcKey, cdcValue);
     }
 }

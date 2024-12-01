@@ -5,6 +5,7 @@ import com.cooba.dto.CdcValue;
 import com.cooba.enums.TableEnum;
 import com.cooba.handler.table_handler.TableHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class TableHandlerFactory {
 
     public TableHandler getHandler(TableEnum tableEnum) {
         return tableHandlerMap.get(tableEnum);
+    }
+
+    @Async
+    public void handle(TableEnum tableEnum, CdcKey cdcKey, CdcValue cdcValue) {
+        tableHandlerMap.get(tableEnum).handle(cdcKey, cdcValue);
     }
 
 }
