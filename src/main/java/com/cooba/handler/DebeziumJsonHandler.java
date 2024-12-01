@@ -26,12 +26,12 @@ public class DebeziumJsonHandler implements Consumer<ChangeEvent<String, String>
         String table = cdcKey.getTable();
 
         TableEnum tableEnum = TableEnum.getEnum(table);
-        Class<?> type = tableEnum.getEntityClass();
-        if (type == null) {
+        if (tableEnum == null) {
             log.warn("Unknown table type:{}", table);
             return;
         }
 
+        Class<?> type = tableEnum.getEntityClass();
         CdcValue cdcValue = new CdcValue(changeEvent.value(), type);
 
         tableHandlerFactory.handle(tableEnum, cdcKey, cdcValue);
