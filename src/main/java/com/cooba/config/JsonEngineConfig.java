@@ -1,16 +1,11 @@
 package com.cooba.config;
 
-import com.cooba.handler.DebeziumHandler;
 import com.cooba.handler.DebeziumJsonHandler;
-import io.debezium.embedded.Connect;
 import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
-import io.debezium.engine.RecordChangeEvent;
-import io.debezium.engine.format.ChangeEventFormat;
 import io.debezium.engine.format.Json;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.connect.source.SourceRecord;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -20,20 +15,21 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 @Slf4j
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
-public class EngineConfig {
-    private final DebeziumHandler debeziumHandler;
+public class JsonEngineConfig {
+    private final DebeziumJsonHandler debeziumJsonHandler;
 
     @PostConstruct
-    public void execute() throws IOException {
-        ClassPathResource resource = new ClassPathResource("mysql-source.properties");
+    public void executeJson() throws IOException {
+        ClassPathResource resource = new ClassPathResource("mysql-source-jdbc.properties");
         Properties properties = PropertiesLoaderUtils.loadProperties(resource);
 
-        DebeziumEngine<RecordChangeEvent<SourceRecord>> engine = DebeziumEngine.create(ChangeEventFormat.of(Connect.class))
+        DebeziumEngine<ChangeEvent<String, String>> engine = DebeziumEngine.create(Json.class)
                 .using(properties)
-                .notifying(debeziumHandler)
+                .notifying(debeziumJsonHandler)
                 .build();
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
