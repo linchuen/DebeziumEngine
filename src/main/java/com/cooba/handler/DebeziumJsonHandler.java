@@ -1,13 +1,10 @@
 package com.cooba.handler;
 
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cooba.dto.CdcKey;
 import com.cooba.dto.CdcValue;
-import com.cooba.util.ClickhouseConverter;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cooba.enums.TableEnum;
+import com.cooba.handler.table_handler.TableHandler;
 import io.debezium.engine.ChangeEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +16,7 @@ import java.util.function.Consumer;
 @Component
 @RequiredArgsConstructor
 public class DebeziumJsonHandler implements Consumer<ChangeEvent<String, String>> {
-    private final ClickhouseConverter clickhouseConverter;
+    private final TableHandlerFactory tableHandlerFactory;
 
     @Override
     public void accept(ChangeEvent<String, String> changeEvent) {
@@ -27,13 +24,17 @@ public class DebeziumJsonHandler implements Consumer<ChangeEvent<String, String>
 
         CdcKey cdcKey = JSONUtil.toBean(changeEvent.key(), CdcKey.class);
         String table = cdcKey.getTable();
-        String json = changeEvent.value();
 
-        Class<?> type = clickhouseConverter.getType(table);
-        CdcValue cdcValue = new CdcValue(json, type);
+        TableEnum tableEnum = TableEnum.getEnum(table);
+        Class<?> type = tableEnum.getEntityClass();
+        if (type == null) {
+            log.warn("Unknown table type:{}", table);
+            return;
+        }
 
-        BaseMapper mapper = clickhouseConverter.getMapper(table);
-        mapper.insert(cdcValue.getValue());
+        CdcValue cdcValue = new CdcValue(changeEvent.value(), type);
 
+        TableHandler handler = tableHandlerFactory.getHandler(tableEnum);
+        handler.handle(cdcKey, cdcValue);
     }
 }
