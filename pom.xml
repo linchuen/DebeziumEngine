@@ -19,6 +19,8 @@
         <version.debezium>2.3.4.Final</version.debezium>
         <version.debezium>2.3.4.Final</version.debezium>
         <version.hutool>5.8.34</version.hutool>
+        <version.clickhouse-jdbc>0.3.2-patch11</version.clickhouse-jdbc>
+        <version.mybatis-plus>3.5.9</version.mybatis-plus>
     </properties>
 
     <dependencies>
@@ -84,19 +86,13 @@
         <dependency>
             <groupId>com.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.3.2-patch11</version>
+            <version>${version.clickhouse-jdbc}</version>
         </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.instancio</groupId>
-            <artifactId>instancio-junit</artifactId>
-            <version>5.0.1</version>
+            <version>${version.mybatis-plus}</version>
         </dependency>
 
         <dependency>
@@ -111,9 +107,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.12</version>
+            <groupId>org.instancio</groupId>
+            <artifactId>instancio-junit</artifactId>
+            <version>5.0.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
