@@ -1,6 +1,5 @@
 package com.cooba.enums;
 
-import com.clickhouse.client.internal.google.common.base.Functions;
 import com.cooba.entity.Order;
 import lombok.Getter;
 
@@ -11,7 +10,8 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum TableEnum {
-    order("order", Order.class);
+    order("order", Order.class),
+    debezium_signal("debezium_signal", Order.class);
 
     TableEnum(String name, Class<?> entityClass) {
         this.name = name;
